@@ -54,7 +54,29 @@ alldata <-  alldata %>%
     )
   ))
 ```
+# Coding smoker variable
+alldata$Smoker <- ifelse(alldata$Smoker == "N", 0, 
+                      ifelse(alldata$Smoker == "Current", 1,
+                       ifelse(alldata$Smoker == "Y", 2, alldata$Smoker)))
 
+# Coding SES5 variable
+alldata$SES5 <- ifelse(alldata$SES5 == "L1", 1,
+                         ifelse(alldata$SES5 == "L2", 2,
+                                ifelse(alldata$SES5 == "L3", 3,
+                                       ifelse(alldata$SES5 == "L4", 4,
+                                              ifelse(alldata$SES5 == "L5", 5,alldata$SES5)))))
+
+# Coding PH variable
+alldata$PH <-  ifelse(alldata$PH == "Yes", "Y", alldata$PH)
+alldata$PH <-  ifelse(alldata$PH == "No", "N", alldata$PH)
+
+alldata$PH <- ifelse(alldata$PH == "N", 0,
+                       ifelse(alldata$PH == "Y", 1, alldata$PH))
+
+# Make variables factors
+alldata$PH <- factor(alldata$PH)
+alldata$Smoker <- factor(alldata$Smoker)
+alldata$SES5 <- factor(alldata$SES5)
 ## Model 
 
 ```{r}
