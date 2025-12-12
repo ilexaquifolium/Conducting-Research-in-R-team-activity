@@ -1,0 +1,39 @@
+---
+title: "Analysis"
+author: "Holly W, Charlie C, Manal P"
+date: "2025-12-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## import data
+
+and make columns uniform
+
+```{r}
+library(readxl)
+a = read_excel("A.xlsx")
+b = read_excel("B.xlsx")
+p = read_excel("P.xlsx")
+se = read_excel("SouthEast.xlsx")
+d = read.csv("data_entry.csv")
+colnames(se) = c("Age","PH","MH","Smoker","Belief","SES5","Gender","Region","ID")
+se$ID = NULL
+
+colnames(d) = c("Name","Age","Gender","Belief","PH","MH")
+d$Name = NULL
+d$Smoker = d$Region = d$SES5 = NA
+
+```
+
+## Merge
+
+```{r}
+datasets <- list(a,b,p)
+abp = Reduce(function(x,y) rbind(x,y,all=TRUE), datasets)
+abp_se = rbind(abp,se)
+alldata = rbind(abp_se,d)s
+```
