@@ -52,3 +52,12 @@ alldata <-  alldata %>%
     )
   ))
 ```
+
+## Model 
+
+```{r}
+model1 <- glm(
+  Belief ~ Age + Gender + MH + PH + Smoker + SES5 + Region,
+  data = alldata,
+  family = binomial
+)
