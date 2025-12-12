@@ -54,7 +54,10 @@ alldata <-  alldata %>%
     )
   ))
 ```
-# Coding smoker variable
+# Coding variables
+
+```{r}
+# Coding Smoker variable
 alldata$Smoker <- ifelse(alldata$Smoker == "N", 0, 
                       ifelse(alldata$Smoker == "Current", 1,
                        ifelse(alldata$Smoker == "Y", 2, alldata$Smoker)))
@@ -68,8 +71,9 @@ alldata$SES5 <- ifelse(alldata$SES5 == "L1", 1,
 
 # Coding PH variable
 alldata$PH <-  ifelse(alldata$PH == "Yes", "Y", alldata$PH)
+alldata$PH <-  ifelse(alldata$PH == "YES", "Y", alldata$PH)
+alldata$PH <-  ifelse(alldata$PH == "NO", "N", alldata$PH)
 alldata$PH <-  ifelse(alldata$PH == "No", "N", alldata$PH)
-
 alldata$PH <- ifelse(alldata$PH == "N", 0,
                        ifelse(alldata$PH == "Y", 1, alldata$PH))
 
@@ -77,12 +81,15 @@ alldata$PH <- ifelse(alldata$PH == "N", 0,
 alldata$PH <- factor(alldata$PH)
 alldata$Smoker <- factor(alldata$Smoker)
 alldata$SES5 <- factor(alldata$SES5)
+```
+
 ## Model 
 
 ```{r}
-model1 <- glm(
+model <- glm(
   Belief ~ Age + Gender + MH + PH + Smoker + SES5 + Region,
   data = alldata,
   family = binomial
 )
+model
 ```
