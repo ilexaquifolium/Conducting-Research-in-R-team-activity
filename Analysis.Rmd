@@ -37,3 +37,18 @@ abp = Reduce(function(x,y) rbind(x,y,all=TRUE), datasets)
 abp_se = rbind(abp,se)
 alldata = rbind(abp_se,d)s
 ```
+
+## Change belief to binary 
+
+```{r}
+alldata <-  alldata %>%
+  mutate(across(
+    all_of(binarycols),
+    ~ case_when(
+      . == "Y" ~ 1,
+      . == "N" ~ 0,
+      . == "U" ~ NA_real_,
+      TRUE ~ NA_real_     
+    )
+  ))
+```
