@@ -35,12 +35,14 @@ d$Smoker = d$Region = d$SES5 = NA
 datasets <- list(a,b,p)
 abp = Reduce(function(x,y) rbind(x,y,all=TRUE), datasets)
 abp_se = rbind(abp,se)
-alldata = rbind(abp_se,d)s
+alldata = rbind(abp_se,d)
 ```
 
 ## Change belief to binary 
 
 ```{r}
+library(dplyr)
+binarycols = c("Belie")
 alldata <-  alldata %>%
   mutate(across(
     all_of(binarycols),
@@ -61,3 +63,4 @@ model1 <- glm(
   data = alldata,
   family = binomial
 )
+```
