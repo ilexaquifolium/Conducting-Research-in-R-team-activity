@@ -42,7 +42,7 @@ alldata = rbind(abp_se,d)
 
 ```{r}
 library(dplyr)
-binarycols = c("Belie")
+binarycols = c("Belief")
 alldata <-  alldata %>%
   mutate(across(
     all_of(binarycols),
