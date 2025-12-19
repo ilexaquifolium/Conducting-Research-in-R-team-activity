@@ -58,9 +58,8 @@ alldata <-  alldata %>%
 
 ```{r}
 # Coding Smoker variable
-alldata$Smoker <- ifelse(alldata$Smoker == "N", 0, 
-                      ifelse(alldata$Smoker == "Current", 1,
-                       ifelse(alldata$Smoker == "Y", 2, alldata$Smoker)))
+alldata$Smoker[alldata$Smoker %in% c("Current","TRUE","Y")] = 1
+alldata$Smoker[alldata$Smoker == "N"] = 0
 
 # Coding SES5 variable
 alldata$SES5 <- ifelse(alldata$SES5 == "L1", 1,
@@ -68,14 +67,21 @@ alldata$SES5 <- ifelse(alldata$SES5 == "L1", 1,
                                 ifelse(alldata$SES5 == "L3", 3,
                                        ifelse(alldata$SES5 == "L4", 4,
                                               ifelse(alldata$SES5 == "L5", 5,alldata$SES5)))))
+alldata$SES5[alldata$SES5== "TRUE"] = NA
 
 # Coding PH variable
-alldata$PH <-  ifelse(alldata$PH == "Yes", "Y", alldata$PH)
-alldata$PH <-  ifelse(alldata$PH == "YES", "Y", alldata$PH)
-alldata$PH <-  ifelse(alldata$PH == "NO", "N", alldata$PH)
-alldata$PH <-  ifelse(alldata$PH == "No", "N", alldata$PH)
-alldata$PH <- ifelse(alldata$PH == "N", 0,
-                       ifelse(alldata$PH == "Y", 1, alldata$PH))
+alldata$PH[alldata$PH %in% c("N","No","NO")] = 0
+alldata$PH[alldata$PH %in% c("TRUE","Y","Yes","YES")] = 1
+
+# Coding MH variable
+alldata$MH[alldata$MH %in% c("N","No","NO")] = 0
+alldata$MH[alldata$MH %in% c("TRUE","Y","Yes","YES")] = 1
+
+# Coding Gender variable
+alldata$Gender[alldata$Gender %in% c("F","Female")] = "F"
+alldata$Gender[alldata$Gender %in% c("M","Male")] = "M"
+alldata$Gender[alldata$Gender %in% c("GD")] = "GD"
+alldata$Gender[!(alldata$Gender %in% c("F","Female","GD","M","Male"))] = NA
 
 # Make variables factors
 alldata$PH <- factor(alldata$PH)
@@ -87,9 +93,9 @@ alldata$SES5 <- factor(alldata$SES5)
 
 ```{r}
 model <- glm(
-  Belief ~ Age + Gender + MH + PH + Smoker + SES5 + Region,
+  Belief ~ MH + PH,
   data = alldata,
   family = binomial
 )
-model
+summary(model)
 ```
